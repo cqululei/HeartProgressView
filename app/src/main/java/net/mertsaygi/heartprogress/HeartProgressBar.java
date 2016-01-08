@@ -9,6 +9,7 @@ import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 /**
  * Created by mertsaygi on 04/01/16.
@@ -18,16 +19,10 @@ public class HeartProgressBar extends View {
     private int progress = 0;
     private Paint paint;
     private Path path;
-    private int secondRoundWidth = 4;
-
-    /*
-    *
-    * Renkleri firstPaint ve secondPaintten düzenliyorsun. Kullanırken FloatPoint ve HeartProgressBar
-    * classlarını kendi projene aktarmayı atlama :)
-    * secondRoundWidth ikinci turun yani progressin et kalınlığını belirler.
-    * ilk halkanın et kalınlığını firstPaintteki setStrokeWidthden değiştirebilirsin
-    *
-    * */
+    private float firstRoundWidth = 15;
+    private float secondRoundWidth = 5;
+    private int backColor = Color.RED;
+    private int progressColor = Color.YELLOW;
 
     public HeartProgressBar(Context context) {
         super(context);
@@ -59,8 +54,8 @@ public class HeartProgressBar extends View {
     private Paint firstPaint(){
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeJoin(Paint.Join.MITER);
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(15);
+        paint.setColor(backColor);
+        paint.setStrokeWidth(firstRoundWidth);
         paint.setStyle(Paint.Style.STROKE);
 
         return paint;
@@ -69,8 +64,8 @@ public class HeartProgressBar extends View {
     private Paint secondPaint(){
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeJoin(Paint.Join.MITER);
-        paint.setColor(Color.YELLOW);
-        paint.setStrokeWidth(15);
+        paint.setColor(progressColor);
+        paint.setStrokeWidth(secondRoundWidth);
         paint.setStyle(Paint.Style.STROKE);
 
         return paint;
@@ -80,7 +75,7 @@ public class HeartProgressBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        float length = canvas.getWidth()/2 - 40;
+        float length = canvas.getWidth()/2 ;
         float x = canvas.getWidth()/2;
         float y = canvas.getHeight()/2;
 
@@ -88,8 +83,8 @@ public class HeartProgressBar extends View {
 
         FloatPoint[] pointArray = getPoints();
 
-        for (int i = 0 ;i <progress ;i++){
-            canvas.drawCircle(pointArray[i].getX(), pointArray[i].getY(), secondRoundWidth , secondPaint());
+        for (int i = 0 ;i < progress; i++) {
+            canvas.drawRect(pointArray[i].getX(), pointArray[i].getY(), pointArray[i].getX()+(int) secondRoundWidth,pointArray[i].getY()+(int) secondRoundWidth, secondPaint());
             invalidate();
         }
 
@@ -124,4 +119,11 @@ public class HeartProgressBar extends View {
         return pointArray;
     }
 
+    public void setBackColor(int backColor) {
+        this.backColor = backColor;
+    }
+
+    public void setProgressColor(int progressColor) {
+        this.progressColor = progressColor;
+    }
 }
