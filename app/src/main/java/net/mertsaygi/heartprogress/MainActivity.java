@@ -3,11 +3,11 @@ package net.mertsaygi.heartprogress;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
     private HeartProgressBar heartProgressBar;
+    private HeartView mHeartLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
         heartProgressBar = (HeartProgressBar) findViewById(R.id.heart_progress_bar);
         heartProgressBar.setBackColor(Color.GRAY);
         heartProgressBar.setProgressColor(Color.GREEN);
+
+        mHeartLayout = (HeartView) findViewById(R.id.heart_progress_bar3);
+        mHeartLayout.createHeart();
     }
 
     @Override
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             heartProgressBar.setProgress(d);
+                            mHeartLayout.setProgress(d);
                         }
                     });
                     try {
